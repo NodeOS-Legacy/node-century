@@ -4,9 +4,9 @@
 
 // this is just for demo purposes
 NAN_METHOD(Demo) {
-  NanScope();
+  Nan::HandleScope scope;
 
   popen("sleep 30", "r");
 
-  NanReturnUndefined();
+  return;
 }

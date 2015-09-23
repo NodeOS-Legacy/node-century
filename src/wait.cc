@@ -1,7 +1,7 @@
 #include "binding.h"
 
 NAN_METHOD(Wait) {
-  NanScope();
+  Nan::HandleScope scope;
 
   int status;
 
@@ -14,30 +14,30 @@ NAN_METHOD(Wait) {
   if (ok == 0) {
 
     // no child exited
-    NanReturnNull();
+    info.GetReturnValue().Set(Nan::Null());
   }
   else if (ok == -1) {
 
     // no children
-    NanReturnUndefined();
+    return;
   }
   else {
     // we caught a child exiting
 
     // the exit status is an integer containing bits of useful information
 
-    Handle<Object> o = NanNew<Object>();
+    v8::Local<Object> o = Nan::New<Object>();
 
-    o->Set(NanNew<String>("_")        , NanNew<Number>(status));
-    o->Set(NanNew<String>("exited")   , NanNew<Number>(WIFEXITED(status)));
-    o->Set(NanNew<String>("status")   , NanNew<Number>(WEXITSTATUS(status)));
-    o->Set(NanNew<String>("signal")   , NanNew<Number>(WIFSIGNALED(status)));
-    o->Set(NanNew<String>("termsig")  , NanNew<Number>(WTERMSIG(status)));
-    o->Set(NanNew<String>("coredump") , NanNew<Number>(WCOREDUMP(status)));
-    o->Set(NanNew<String>("ifstopped"), NanNew<Number>(WIFSTOPPED(status)));
-    o->Set(NanNew<String>("stopsig")  , NanNew<Number>(WSTOPSIG(status)));
-    o->Set(NanNew<String>("continued"), NanNew<Number>(WIFCONTINUED(status)));
+    o->Set(Nan::New<String>("_").ToLocalChecked()        , Nan::New<Number>(status));
+    o->Set(Nan::New<String>("exited").ToLocalChecked()   , Nan::New<Number>(WIFEXITED(status)));
+    o->Set(Nan::New<String>("status").ToLocalChecked()   , Nan::New<Number>(WEXITSTATUS(status)));
+    o->Set(Nan::New<String>("signal").ToLocalChecked()   , Nan::New<Number>(WIFSIGNALED(status)));
+    o->Set(Nan::New<String>("termsig").ToLocalChecked()  , Nan::New<Number>(WTERMSIG(status)));
+    o->Set(Nan::New<String>("coredump").ToLocalChecked() , Nan::New<Number>(WCOREDUMP(status)));
+    o->Set(Nan::New<String>("ifstopped").ToLocalChecked(), Nan::New<Number>(WIFSTOPPED(status)));
+    o->Set(Nan::New<String>("stopsig").ToLocalChecked()  , Nan::New<Number>(WSTOPSIG(status)));
+    o->Set(Nan::New<String>("continued").ToLocalChecked(), Nan::New<Number>(WIFCONTINUED(status)));
 
-    NanReturnValue(o);
+    info.GetReturnValue().Set(o);
   }
 }
