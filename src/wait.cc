@@ -2,28 +2,18 @@
 
 NAN_METHOD(Wait) {
   Nan::HandleScope scope;
-
   int status;
 
   // non-blocking
-
   // do not wait for a dead child because this is run on the main event loop
   // this method is intended for init, who inherits children that it did not spawn
   pid_t ok = waitpid(-1, &status, WNOHANG);
 
   if (ok == 0) {
-
     // no child exited
     info.GetReturnValue().Set(Nan::Null());
-  }
-  else if (ok == -1) {
-
-    // no children
-    return;
-  }
-  else {
+  } else if (ok != -1) {
     // we caught a child exiting
-
     // the exit status is an integer containing bits of useful information
 
     v8::Local<Object> o = Nan::New<Object>();
