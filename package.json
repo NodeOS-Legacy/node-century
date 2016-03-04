@@ -5,8 +5,8 @@
   "author": "Jacob Groundwater <groundwater@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "nan": "^1.2.0",
-    "minimist": "^0.0.10"
+    "minimist": "^0.0.10",
+    "nan": "^2.0.9"
   },
   "bin": {
     "century": "century.js"

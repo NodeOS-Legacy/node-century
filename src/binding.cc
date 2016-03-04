@@ -1,10 +1,10 @@
 #include "binding.h"
 
 void InitAll(Handle<Object> exports) {
-  exports->Set(NanNew<String>("wait"),
-    NanNew<FunctionTemplate>(Wait)->GetFunction());
-  exports->Set(NanNew<String>("demo"),
-    NanNew<FunctionTemplate>(Demo)->GetFunction());
+  exports->Set(Nan::New<String>("wait").ToLocalChecked(),
+    Nan::New<FunctionTemplate>(Wait)->GetFunction());
+  exports->Set(Nan::New<String>("demo").ToLocalChecked(),
+    Nan::New<FunctionTemplate>(Demo)->GetFunction());
 }
 
 NODE_MODULE(binding, InitAll)
